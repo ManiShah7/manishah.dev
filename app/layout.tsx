@@ -1,11 +1,5 @@
-import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
-
-// export const metadata: Metadata = {
-//   title: "ManiShah - Dev Journey",
-//   description: "Sharing my development experiences and learnings",
-// };
 
 export default function RootLayout({
   children,

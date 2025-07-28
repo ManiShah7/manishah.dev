@@ -53,6 +53,10 @@ export default function PrismLoader() {
 // Extend Window type for TypeScript
 declare global {
   interface Window {
-    Prism: any;
+    Prism: {
+      highlightAll: () => void;
+      highlightElement: (element: Element) => void;
+      manual: boolean;
+    };
   }
 }
