@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -106,51 +108,6 @@ body {
 .dark .blog-content blockquote {
   color: #9ca3af;
   border-left-color: #60a5fa;
-}
-
-.dark header {
-  background-color: #111827 !important;
-  border-color: #374151 !important;
-}
-
-.dark .bg-white {
-  background-color: #111827 !important;
-}
-
-.dark .bg-gray-100 {
-  background-color: #374151 !important;
-}
-
-.dark .hover\:bg-gray-200:hover {
-  background-color: #4b5563 !important;
-}
-
-.dark .text-gray-900 {
-  color: #f9fafb !important;
-}
-
-.dark .text-gray-600 {
-  color: #9ca3af !important;
-}
-
-.dark .text-gray-400 {
-  color: #6b7280 !important;
-}
-
-.dark .border-gray-200 {
-  border-color: #374151 !important;
-}
-
-.dark .border-gray-700 {
-  border-color: #374151 !important;
-}
-
-.dark .bg-blue-50 {
-  background-color: #1e3a8a !important;
-}
-
-.dark .text-blue-700 {
-  color: #93c5fd !important;
 }
 
 img {

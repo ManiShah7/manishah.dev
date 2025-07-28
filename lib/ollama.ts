@@ -57,17 +57,10 @@ export async function generateBlogPost(
 
   const prompt = `Write a blog post about ${selectedTopic} from the perspective of a developer sharing their experience.
 
-Requirements:
-- Write naturally, like you're explaining something you figured out to a colleague
-- Include real examples and code that actually work
-- Share what you learned, what surprised you, or what took you a while to understand
-- 600-800 words
-- Use markdown formatting
-- Make it helpful and practical
+IMPORTANT: Follow this EXACT format with triple dashes for frontmatter:
 
-Format like this:
 ---
-title: "Your Title Here"
+title: "Your Specific Title Here"
 date: "${new Date().toISOString().split("T")[0]}"
 tags: ["react", "javascript"]
 excerpt: "Brief description of what the post covers"
@@ -76,19 +69,25 @@ image: "${imageUrl}"
 
 # Your Title
 
-Start writing about the topic naturally. Maybe mention what prompted you to learn this, or a problem you were trying to solve.
+Write the content naturally, like explaining to a colleague. Include:
+- What problem you were solving or what you discovered
+- Code examples that work
+- What you learned or what surprised you
+- 600-800 words total
 
-## What I Found
+## Section Header
 
-Explain the concept or technique with examples.
+More content with examples:
 
 \`\`\`javascript
-// Include working code examples
+// Working code examples
 \`\`\`
 
 ## Key Takeaways
 
-Wrap up with what was most useful or surprising.`;
+Wrap up with useful insights.
+
+Remember: Start with --- and end frontmatter with --- then begin the actual content.`;
 
   const response = await fetch("http://localhost:11434/api/generate", {
     method: "POST",

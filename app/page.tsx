@@ -7,11 +7,6 @@ export default async function HomePage() {
 
   return (
     <div className="max-w-3xl mx-auto p-6">
-      <div className="bg-white dark:bg-black text-black dark:text-white p-4 mb-4">
-        Dark mode test - this should be white/black in light mode and
-        black/white in dark mode
-      </div>
-
       <div className="space-y-8">
         {posts.map((post) => (
           <article

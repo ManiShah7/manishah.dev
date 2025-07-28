@@ -40,7 +40,7 @@ export default function Header() {
 
   if (!mounted) {
     return (
-      <header className="sticky top-0 z-50 bg-white border-b border-gray-200 transition-colors">
+      <header className="sticky top-0 z-50 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 transition-colors">
         <div className="max-w-6xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <Link
@@ -49,9 +49,11 @@ export default function Header() {
             >
               <Lightbulb className="w-6 h-6 text-yellow-500" />
               <div className="font-mono text-lg">
-                <span className="text-gray-600">&lt;</span>
-                <span className="text-gray-900 font-semibold">ManiShah</span>
-                <span className="text-gray-600"> /&gt;</span>
+                <span className="text-gray-600 dark:text-gray-400">&lt;</span>
+                <span className="text-gray-900 font-semibold dark:text-gray-100">
+                  ManiShah
+                </span>
+                <span className="text-gray-600 dark:text-gray-400"> /&gt;</span>
               </div>
             </Link>
             <div className="w-9 h-9"></div>
@@ -62,7 +64,7 @@ export default function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-200 transition-colors">
+    <header className="sticky top-0 z-50 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 transition-colors">
       <div className="max-w-6xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <Link
@@ -71,15 +73,17 @@ export default function Header() {
           >
             <Lightbulb className="w-6 h-6 text-yellow-500" />
             <div className="font-mono text-lg">
-              <span className="text-gray-600">&lt;</span>
-              <span className="text-gray-900 font-semibold">ManiShah</span>
-              <span className="text-gray-600"> /&gt;</span>
+              <span className="text-gray-600 dark:text-gray-400">&lt;</span>
+              <span className="text-gray-900 font-semibold dark:text-gray-100">
+                ManiShah
+              </span>
+              <span className="text-gray-600 dark:text-gray-400"> /&gt;</span>
             </div>
           </Link>
 
           <button
             onClick={toggleDarkMode}
-            className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer"
+            className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 transition-colors cursor-pointer"
             aria-label="Toggle dark mode"
             type="button"
           >
