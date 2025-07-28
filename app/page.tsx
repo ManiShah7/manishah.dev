@@ -31,11 +31,11 @@ export default async function HomePage() {
                   />
                 </div>
               )}
-              <h2 className="text-2xl font-semibold mb-2 hover:text-blue-600 dark:text-white dark:hover:text-blue-400">
+              <h2 className="text-2xl font-semibold mb-2 hover:text-blue-600 dark:text-black dark:hover:text-blue-400">
                 {post.title}
               </h2>
             </Link>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
+            <p className="text-gray-600 dark:text-gray-700 mb-4">
               {post.excerpt}
             </p>
             <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
