@@ -38,7 +38,7 @@ if [ -d .git ]; then
     else
         echo "$(date): Committing and pushing new post..." >> "$LOG_FILE"
         git commit -m "Add daily blog post $(date +%Y-%m-%d)"
-        git push origin main
+        git push origin master
         echo "$(date): Successfully pushed to GitHub" >> "$LOG_FILE"
     fi
 fi
