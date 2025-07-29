@@ -32,7 +32,7 @@ echo "$(date): API Response: $RESPONSE" >> "$LOG_FILE"
 
 # Check if we have new posts to commit
 if [ -d .git ]; then
-    git add content/posts/
+    git add content/posts/ logs/daily-post.log
     if git diff --staged --quiet; then
         echo "$(date): No new posts generated" >> "$LOG_FILE"
     else

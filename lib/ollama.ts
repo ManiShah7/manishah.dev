@@ -1,3 +1,6 @@
+import { readdir, readFile } from "fs/promises";
+import { join } from "path";
+
 type OllamaResponse = {
   response: string;
   done: boolean;
@@ -46,48 +49,92 @@ function createSlugFromTitle(title: string): string {
     .substring(0, 60);
 }
 
+async function getExistingPostTitles(): Promise<string[]> {
+  try {
+    const postsDir = join(process.cwd(), "content", "posts");
+    const files = await readdir(postsDir);
+    const mdFiles = files.filter(file => file.endsWith('.md'));
+    
+    const titles: string[] = [];
+    for (const file of mdFiles) {
+      const content = await readFile(join(postsDir, file), 'utf-8');
+      const titleMatch = content.match(/title:\s*"([^"]+)"/);
+      if (titleMatch) {
+        titles.push(titleMatch[1]);
+      }
+    }
+    return titles;
+  } catch (error) {
+    console.error("Error reading existing posts:", error);
+    return [];
+  }
+}
+
 export async function generateBlogPost(
   topic?: string
 ): Promise<{ content: string; slug: string }> {
   const selectedTopic =
     topic ||
-    "a recent discovery or learning experience in React/JavaScript development";
+    "a recent discovery, tip, trick, or learning experience in modern web development";
 
+  const existingTitles = await getExistingPostTitles();
   const imageUrl = await getImageForPost(selectedTopic);
 
-  const prompt = `Write a blog post about ${selectedTopic} from the perspective of a developer sharing their experience.
+  const prompt = `Write a deep technical blog post explaining ONE specific concept that most developers either ignore, misunderstand, or don't fully grasp the "why" behind it.
+
+IMPORTANT: Avoid these existing topics that have already been covered:
+${existingTitles.map(title => `- ${title}`).join('\n')}
+
+Choose from these types of topics:
+- JavaScript engine internals (event loop mechanics, memory management, JIT compilation)
+- Browser rendering pipeline details (reflow vs repaint, critical rendering path)
+- CSS specificity calculations and cascade resolution
+- HTTP protocol nuances (connection pooling, caching headers, content negotiation)
+- React internals (reconciliation algorithm, fiber architecture, batching)
+- TypeScript type system edge cases (variance, mapped types, conditional types)
+- Node.js event-driven architecture (libuv, thread pool, blocking operations)
+- Database indexing strategies and query optimization
+- Build tool internals (module resolution, tree shaking, code splitting)
+- Security concepts (CORS mechanics, CSP implementation, XSS prevention)
 
 IMPORTANT: Follow this EXACT format with triple dashes for frontmatter:
 
 ---
-title: "Your Specific Title Here"
+title: "Why [Specific Technical Concept] Works the Way It Does"
 date: "${new Date().toISOString().split("T")[0]}"
-tags: ["react", "javascript"]
-excerpt: "Brief description of what the post covers"
+tags: ["javascript", "internals", "deepdive"]
+excerpt: "Understanding the deeper mechanics behind [concept] that most developers take for granted"
 image: "${imageUrl}"
 ---
 
-# Your Title
+# Why [Specific Technical Concept] Works the Way It Does
 
-Write the content naturally, like explaining to a colleague. Include:
-- What problem you were solving or what you discovered
-- Code examples that work
-- What you learned or what surprised you
-- 600-800 words total
+Pick ONE specific technical concept and explain it thoroughly. Focus on:
 
-## Section Header
+## The Surface-Level Understanding
 
-More content with examples:
+What most developers know about this concept (the "what").
+
+## The Deeper Reality
+
+The actual implementation details, algorithms, or mechanisms that make it work (the "how" and "why").
+
+## Code Examples That Reveal the Truth
 
 \`\`\`javascript
-// Working code examples
+// Examples that demonstrate the deeper mechanics
+// Show edge cases or unexpected behavior
 \`\`\`
 
-## Key Takeaways
+## Why This Matters in Practice
 
-Wrap up with useful insights.
+Real scenarios where understanding the internals prevents bugs or improves performance.
 
-Remember: Start with --- and end frontmatter with --- then begin the actual content.`;
+## The Key Insight
+
+The one thing about this concept that changes how you think about it.
+
+Write 700-900 words. Be technical but accessible. Focus on ONE concept deeply rather than multiple concepts superficially.`;
 
   const response = await fetch("http://localhost:11434/api/generate", {
     method: "POST",
