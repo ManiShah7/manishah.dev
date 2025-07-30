@@ -19,3 +19,9 @@ Tue 29 Jul 2025 04:01:40 AEST: Daily post generation complete!
 Wed 30 Jul 2025 04:00:01 AEST: Starting daily post generation
 Wed 30 Jul 2025 04:00:01 AEST: Generating new blog post...
 Wed 30 Jul 2025 04:02:18 AEST: API Response: {"success":true,"filename":"why-javascripts-event-loop-works-the-way-it-does.md","slug":"why-javascripts-event-loop-works-the-way-it-does","url":"/posts/why-javascripts-event-loop-works-the-way-it-does","preview":"---\ntitle: \"Why JavaScript's Event Loop Works the Way It Does\"\ndate: \"2025-07-29\"\ntags: [\"javascript\", \"internals\", \"deepdive\"]\nexcerpt: \"Understanding the deeper mechanics behind JavaScript's event l..."}
+Wed 30 Jul 2025 04:02:18 AEST: Committing and pushing new post...
+Wed 30 Jul 2025 04:02:20 AEST: Successfully pushed to GitHub
+Wed 30 Jul 2025 04:02:20 AEST: Daily post generation complete!
+Thu 31 Jul 2025 04:00:01 AEST: Starting daily post generation
+Thu 31 Jul 2025 04:00:01 AEST: Generating new blog post...
+Thu 31 Jul 2025 04:02:34 AEST: API Response: {"success":true,"filename":"why-javascripts-event-loop-works-the-way-it-does.md","slug":"why-javascripts-event-loop-works-the-way-it-does","url":"/posts/why-javascripts-event-loop-works-the-way-it-does","preview":"---\ntitle: \"Why JavaScript's Event Loop Works the Way It Does\"\ndate: \"2025-07-30\"\ntags: [\"javascript\", \"internals\", \"deepdive\"]\nexcerpt: \"Understanding the deeper mechanics behind JavaScript's event l..."}
