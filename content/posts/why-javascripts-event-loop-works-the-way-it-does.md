@@ -1,54 +1,53 @@
 ---
 title: "Why JavaScript's Event Loop Works the Way It Does"
-date: "2025-07-30"
+date: "2025-08-04"
 tags: ["javascript", "internals", "deepdive"]
 excerpt: "Understanding the deeper mechanics behind JavaScript's event loop that most developers take for granted"
-image: "https://images.unsplash.com/photo-1532188142562-df556b861e6a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3ODM2OTN8MHwxfHNlYXJjaHwxfHxyZWNlbnQlMkNkaXNjb3Zlcnl8ZW58MHwwfHx8MTc1Mzg5ODQwMnww&ixlib=rb-4.1.0&q=80&w=1080"
+image: "https://images.unsplash.com/photo-1532188142562-df556b861e6a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3ODM2OTN8MHwxfHNlYXJjaHwxfHxyZWNlbnQlMkNkaXNjb3Zlcnl8ZW58MHwwfHx8MTc1NDIyMDg3MXww&ixlib=rb-4.1.0&q=80&w=1080"
 ---
 
 # Why JavaScript's Event Loop Works the Way It Does
 
-JavaScript's event loop is a fundamental aspect of the language that many developers use without fully understanding how it works. In this article, we will delve into the deeper mechanics behind JavaScript's event loop and explain why it works the way it does. We will also explore some code examples to reveal the truth about JavaScript's event loop.
+JavaScript is an event-driven language, and its event loop mechanism is one of its fundamental parts. However, many developers take this for granted without fully understanding how it works. In this blog post, we will delve into the deeper mechanics behind JavaScript's event loop and explore why it works the way it does.
 
 ## The Surface-Level Understanding
 
-Most developers understand that JavaScript is a single-threaded language, meaning that only one task can be executed at a time. This means that if a task takes too long to complete, it blocks other tasks from running, resulting in poor performance. To overcome this limitation, JavaScript introduced the event loop mechanism. The event loop is responsible for scheduling and executing tasks in a specific order.
+Most developers know that JavaScript is a single-threaded language, meaning that only one task can be executed at a time. This is achieved through the use of an event loop, which runs in a separate thread and handles all the I/O operations. When a blocking operation takes place (e.g., making an HTTP request), the runtime yields control back to the event loop, which checks if there are any other tasks that can be executed.
 
-The surface-level understanding of the event loop is that it processes events in a queue, where each event represents an action to be performed by the application. When an event is received, the event loop checks if there are any available slots in the call stack. If there is a slot available, the event loop schedules the task and pushes it onto the call stack. Once the task completes, the event loop pops it off the call stack and reschedules the next task in the queue.
+The event loop works by constantly polling the callback queue for any pending tasks. The callback queue contains all the functions that need to be executed once a particular task is completed. Once a task completes, it adds its callback function to the end of the queue. The event loop then processes the callback queue in the order they were added.
 
 ## The Deeper Reality
 
-JavaScript's event loop is a bit more complex than the surface-level understanding. Under the hood, the event loop uses a circular buffer to store events that need to be processed. Each slot in the circular buffer represents an available slot in the call stack. When an event is received, the event loop checks if there are any available slots in the circular buffer before scheduling the task. If there are no available slots, the event loop waits until a slot becomes available.
+JavaScript's event loop works by constantly polling the callback queue for any pending tasks. When a blocking operation takes place (e.g., making an HTTP request), the runtime yields control back to the event loop, which checks if there are any other tasks that can be executed. If there are no other tasks to execute, the event loop waits until a task is added to the callback queue before processing it.
 
-The event loop also uses a timer to schedule tasks that need to be executed at a specific time in the future. When a task is scheduled with a timeout or an interval, the event loop creates a timer object and adds it to the circular buffer. The timer object contains metadata about the task, such as when it was created, how long it should wait before executing, and whether it is repeating or not.
+The event loop uses a technique called cooperative multitasking to handle the I/O operations. In this approach, all the tasks are run in a single thread, and each task yields control back to the event loop after completing its current task. This allows the event loop to check if there are any other tasks that can be executed, and it also ensures that only one task is running at a time.
 
-When the timer fires, the event loop checks if there are any available slots in the call stack before scheduling the task. If there are no available slots, the event loop waits until a slot becomes available. Once the task completes, the event loop reschedules the next task in the queue.
+The event loop works by constantly polling the callback queue for any pending tasks. When a blocking operation takes place (e.g., making an HTTP request), the runtime yields control back to the event loop, which checks if there are any other tasks that can be executed. If there are no other tasks to execute, the event loop waits until a task is added to the callback queue before processing it.
 
 ## Code Examples That Reveal the Truth
 
-Here is an example of how JavaScript's event loop works:
 ```javascript
-// Create a function that logs "Hello World!" after 1 second
-function logHelloWorld() {
-  setTimeout(() => console.log('Hello World!'), 1000);
+function handleRequest(request) {
+  // Make an HTTP request
+  fetch("https://example.com/data")
+    .then((response) => response.json())
+    .then((data) => console.log(data));
 }
 
-// Call the function twice in quick succession
-logHelloWorld();
-logHelloWorld();
+// Add the handler to the event loop
+setTimeout(() => handleRequest(), 1000); // Run after 1 second
 ```
-In this example, we create a function that logs "Hello World!" after 1 second using `setTimeout()`. When we call this function twice in quick succession, we expect to see "Hello World!" logged once after 1 second. However, because JavaScript is single-threaded, both tasks are added to the event loop and processed simultaneously.
 
-This means that the first task will log "Hello World!" immediately, while the second task will wait for 1 second before logging "Hello World!". The key insight here is that JavaScript's event loop is responsible for scheduling these tasks in a specific order, allowing the application to perform tasks concurrently without blocking other tasks.
+In this example, we define a function called `handleRequest` that makes an HTTP request using the `fetch` API. We then add this function to the event loop using the `setTimeout` method, which schedules it to run after 1 second.
+
+When the timeout is reached, the runtime yields control back to the event loop, and the event loop checks if there are any other tasks that can be executed. Since there are no other tasks to execute, the event loop waits until the HTTP request completes before processing the callback function. Once the HTTP request completes, the response data is logged to the console by the callback function.
 
 ## Why This Matters in Practice
 
-Understanding how JavaScript's event loop works is crucial for developing high-performance applications. By leveraging the event loop's asynchronous nature, developers can create responsive and scalable web applications.
+Understanding how JavaScript's event loop works is crucial for writing performant and scalable applications. By avoiding blocking operations and using async/await syntax, developers can ensure that their code runs efficiently and doesn't block the event loop.
 
-For example, if you are building a real-time application that requires frequent updates from the server, you should use `setInterval()` to schedule repeated requests to the server instead of using `setTimeout()`. This will ensure that your application receives the latest data at regular intervals without blocking other tasks.
-
-In addition, by understanding how JavaScript's event loop works, developers can avoid common pitfalls such as infinite loops or race conditions. For instance, if you are developing a web application that uses WebSockets to communicate with the server, you should use `WebSocket` objects instead of `XMLHttpRequest` objects to take advantage of the lower overhead and improved performance.
+In addition, understanding the deeper mechanics of the event loop can help developers write more predictable and reliable code. By knowing how tasks are queued and processed, developers can avoid common pitfalls like race conditions and deadlocks.
 
 ## The Key Insight
 
-The key insight behind JavaScript's event loop is that it allows developers to process tasks concurrently without blocking other tasks. By leveraging this mechanism, developers can create responsive and scalable web applications that perform well even under high loads.
+The key insight behind JavaScript's event loop is that it works by constantly polling the callback queue for any pending tasks. This allows the runtime to check if there are any other tasks that can be executed, ensuring that only one task is running at a time and preventing race conditions. By understanding this mechanism, developers can write more predictable and efficient code that runs efficiently in the browser.
