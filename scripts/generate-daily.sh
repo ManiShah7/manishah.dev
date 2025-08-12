@@ -1,6 +1,7 @@
 #!/bin/bash
 PROJECT_DIR="/home/manishah/manishah.dev"
 LOG_FILE="$PROJECT_DIR/logs/daily-post.log"
+TOPIC="${1:-Default Topic}"
 
 cd "$PROJECT_DIR"
 
@@ -24,23 +25,23 @@ fi
 echo "$(date): Generating new blog post..." >> "$LOG_FILE"
 RESPONSE=$(curl -X POST http://localhost:3000/api/generate-post \
   -H "Content-Type: application/json" \
-  -d '{}' \
+  -d "{\"topic\": \"$TOPIC\"}" \
   --max-time 300 \
   -s)
 
 echo "$(date): API Response: $RESPONSE" >> "$LOG_FILE"
 
 # Check if we have new posts to commit
-# if [ -d .git ]; then
-#     git add content/posts/ logs/daily-post.log
-#     if git diff --staged --quiet; then
-#         echo "$(date): No new posts generated" >> "$LOG_FILE"
-#     else
-#         echo "$(date): Committing and pushing new post..." >> "$LOG_FILE"
-#         git commit -m "Add daily blog post $(date +%Y-%m-%d)"
-#         git push origin master
-#         echo "$(date): Successfully pushed to GitHub" >> "$LOG_FILE"
-#     fi
-# fi
+if [ -d .git ]; then
+    git add .
+    if git diff --staged --quiet; then
+        echo "$(date): No new posts generated" >> "$LOG_FILE"
+    else
+        echo "$(date): Committing and pushing new post..." >> "$LOG_FILE"
+        git commit -m "Add daily blog post $(date +%Y-%m-%d)"
+        git push origin master
+        echo "$(date): Successfully pushed to GitHub" >> "$LOG_FILE"
+    fi
+fi
 
 echo "$(date): Daily post generation complete!" >> "$LOG_FILE"
