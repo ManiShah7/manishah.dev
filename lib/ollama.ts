@@ -83,7 +83,7 @@ IMPORTANT: Do not edit the existing posts. Create a new one. Follow this EXACT f
 ---
 title: "${topic}". 
 date: "${new Date().toISOString().split("T")[0]}"
-tags: "Adjust based on topic".
+tags: "Adjust based on topic. Should be an array of strings. ".
 excerpt: "Adjust based on topic and content of the article that you write."
 image: "${imageUrl}"
 ---

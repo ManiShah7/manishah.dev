@@ -1,7 +1,7 @@
 ---
 title: "Is it worth learning Sass in 2025?"
 date: "2025-08-12"
-tags: "CSS, Front End Development, Sass"
+tags: ["CSS", "Front End Development", "Sass"]
 excerpt: "Discover the benefits and tradeoffs of using Sass for front end development in 2025."
 image: "https://images.unsplash.com/photo-1517134191118-9d595e4c8c2b?q=80&w=2340&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 ---
