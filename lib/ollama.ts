@@ -31,6 +31,7 @@ async function getImageForPost(topic: string): Promise<string> {
     return data.results[0]?.urls?.regular;
   } catch (error) {
     console.error("Error fetching image from Unsplash:", error);
+    throw new Error("Error fetching image from Unsplash");
   }
 }
 
